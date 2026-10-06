@@ -1,0 +1,30 @@
+zero_to_one_chain:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: ""
+      user: ""
+      role: ACCOUNTADMIN
+      database: ZERO_TO_ONE_CHAIN
+      warehouse: Z21_WH
+      schema: PUBLIC
+      threads: 8
+    uat:
+      type: snowflake
+      account: ""
+      user: ""
+      role: ACCOUNTADMIN
+      database: ZERO_TO_ONE_CHAIN_UAT
+      warehouse: Z21_WH
+      schema: PUBLIC
+      threads: 8
+    prod:
+      type: snowflake
+      account: ""
+      user: ""
+      role: ACCOUNTADMIN
+      database: ZERO_TO_ONE_CHAIN_PROD
+      warehouse: Z21_WH
+      schema: PUBLIC
+      threads: 8

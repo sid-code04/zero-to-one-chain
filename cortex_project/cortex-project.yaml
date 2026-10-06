@@ -1,0 +1,17 @@
+version: 1
+artifacts:
+  - path: SUPPLY_CHAIN_ANALYTICS.sv.yaml
+    type: semantic_view
+    targets:
+      default:
+        object: ZERO_TO_ONE_CHAIN.L6_SEMANTIC.SUPPLY_CHAIN_ANALYTICS
+  - path: SUPPLY_CHAIN_TWIN.agent.yaml
+    type: cortex_agent
+    targets:
+      default:
+        object: ZERO_TO_ONE_CHAIN.L7_INTELLIGENCE.SUPPLY_CHAIN_TWIN
+  - path: REMEDIATION_AGENT.agent.yaml
+    type: cortex_agent
+    targets:
+      default:
+        object: ZERO_TO_ONE_CHAIN.L7_INTELLIGENCE.REMEDIATION_AGENT

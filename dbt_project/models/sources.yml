@@ -1,0 +1,48 @@
+version: 2
+
+sources:
+  - name: raw_erp
+    database: "{{ target.database }}"
+    schema: L1_INGESTION
+    description: "Raw ERP system extracts"
+    tables:
+      - name: RAW_ERP_PURCHASE_ORDERS
+        description: "Purchase order lines from ERP (100K+ rows)"
+      - name: RAW_ERP_SALES_ORDERS
+        description: "Sales order lines from ERP (100K+ rows)"
+      - name: RAW_ERP_INVENTORY_SNAPSHOTS
+        description: "Daily inventory snapshots from ERP (100K rows)"
+      - name: RAW_ERP_VENDORS
+        description: "Vendor master from ERP (500 records)"
+      - name: RAW_ERP_MATERIALS
+        description: "Material master from ERP (2000 records)"
+      - name: RAW_ERP_PLANTS
+        description: "Plant/facility master from ERP (50 records)"
+      - name: RAW_ERP_CUSTOMERS
+        description: "Customer master from ERP (1000 records)"
+
+  - name: raw_tms
+    database: "{{ target.database }}"
+    schema: L1_INGESTION
+    description: "Raw TMS (Transport Management System) data"
+    tables:
+      - name: RAW_TMS_SHIPMENTS
+        description: "Shipment records from TMS (80K rows)"
+
+  - name: raw_srm
+    database: "{{ target.database }}"
+    schema: L1_INGESTION
+    description: "Raw SRM (Supplier Relationship Management) data"
+    tables:
+      - name: RAW_SRM_SUPPLIERS
+        description: "Supplier records from SRM — different naming vs ERP (450 rows)"
+      - name: RAW_SRM_SUPPLIER_PERFORMANCE
+        description: "Supplier scorecard data from SRM (60K rows)"
+
+  - name: raw_iot
+    database: "{{ target.database }}"
+    schema: L1_INGESTION
+    description: "Raw IoT sensor platform data"
+    tables:
+      - name: RAW_IOT_SENSOR_READINGS
+        description: "Sensor readings from plant equipment (100K rows)"

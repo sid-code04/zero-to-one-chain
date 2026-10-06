@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_purchase_orders
+    description: "Staged purchase orders — typed, normalized, standardized OTD"
+    columns:
+      - name: po_number
+        tests:
+          - not_null
+      - name: supplier_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: ordered_qty
+        tests:
+          - not_null
+
+  - name: stg_sales_orders
+    description: "Staged sales orders — standardized OTD/OTIF/fill rate"
+    columns:
+      - name: order_number
+        tests:
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: ordered_qty
+        tests:
+          - not_null
+
+  - name: stg_shipments
+    description: "Staged TMS shipments"
+    columns:
+      - name: shipment_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_inventory
+    description: "Staged inventory snapshots"
+    columns:
+      - name: plant_code
+        tests:
+          - not_null
+      - name: material_number
+        tests:
+          - not_null

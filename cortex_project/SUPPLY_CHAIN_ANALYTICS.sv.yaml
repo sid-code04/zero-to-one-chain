@@ -1,0 +1,546 @@
+name: SUPPLY_CHAIN_ANALYTICS
+description: Supply Chain Decision Twin analytics model for Zero to One Chain. Provides canonical metric definitions for On-Time Delivery (OTD), OTIF, Fill Rate, Days of Inventory (DOI), Landed Cost, and Supplier Risk Score. Every persona (Planning, Procurement, Logistics) gets the same answer for the same question. Data flows through a 9-layer architecture from raw ingestion to governed semantic views.
+tables:
+- name: VW_METRIC_INVENTORY
+  base_table:
+    database: ZERO_TO_ONE_CHAIN
+    schema: L6_SEMANTIC
+    table: VW_METRIC_INVENTORY
+  dimensions:
+  - name: ABC_CLASS
+    expr: ABC_CLASS
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: AVAILABLE_QTY
+    expr: AVAILABLE_QTY
+    data_type: NUMBER(5,0)
+    access_modifier: public_access
+  - name: CATEGORY
+    expr: CATEGORY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: DAYS_ON_HAND
+    expr: DAYS_ON_HAND
+    data_type: NUMBER(3,0)
+    access_modifier: public_access
+  - name: FAMILY
+    expr: FAMILY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: IN_TRANSIT_QTY
+    expr: IN_TRANSIT_QTY
+    data_type: NUMBER(4,0)
+    access_modifier: public_access
+  - name: MATERIAL_NUMBER
+    expr: MATERIAL_NUMBER
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: ON_HAND_QTY
+    expr: ON_HAND_QTY
+    data_type: NUMBER(4,0)
+    access_modifier: public_access
+  - name: ON_ORDER_QTY
+    expr: ON_ORDER_QTY
+    data_type: NUMBER(4,0)
+    access_modifier: public_access
+  - name: PART_NAME
+    expr: PART_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: PLANT_CODE
+    expr: PLANT_CODE
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: PLANT_NAME
+    expr: PLANT_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: QUARANTINE_QTY
+    expr: QUARANTINE_QTY
+    data_type: NUMBER(3,0)
+    access_modifier: public_access
+  - name: REGION
+    expr: REGION
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: REORDER_POINT
+    expr: REORDER_POINT
+    data_type: NUMBER(3,0)
+    access_modifier: public_access
+  - name: SAFETY_STOCK_QTY
+    expr: SAFETY_STOCK_QTY
+    data_type: NUMBER(4,0)
+    access_modifier: public_access
+  - name: STOCK_STATUS
+    expr: STOCK_STATUS
+    data_type: VARCHAR(12)
+    access_modifier: public_access
+  facts:
+  - name: CARRYING_COST_USD_DAILY
+    expr: CARRYING_COST_USD_DAILY
+    data_type: NUMBER(10,2)
+    access_modifier: public_access
+  - name: DAYS_OF_INVENTORY
+    expr: DAYS_OF_INVENTORY
+    data_type: NUMBER(13,1)
+    access_modifier: public_access
+  - name: INVENTORY_VALUE_USD
+    expr: INVENTORY_VALUE_USD
+    data_type: NUMBER(14,2)
+    access_modifier: public_access
+  - name: OBSOLESCENCE_RISK_PCT
+    expr: OBSOLESCENCE_RISK_PCT
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  - name: TURNOVER_RATIO
+    expr: TURNOVER_RATIO
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  time_dimensions:
+  - name: SNAPSHOT_DATE
+    expr: SNAPSHOT_DATE
+    data_type: DATE
+    access_modifier: public_access
+  - name: SNAPSHOT_MONTH
+    expr: SNAPSHOT_MONTH
+    data_type: DATE
+    access_modifier: public_access
+- name: VW_METRIC_LANDED_COST
+  base_table:
+    database: ZERO_TO_ONE_CHAIN
+    schema: L6_SEMANTIC
+    table: VW_METRIC_LANDED_COST
+  dimensions:
+  - name: IS_ON_TIME
+    expr: IS_ON_TIME
+    data_type: BOOLEAN
+    access_modifier: public_access
+  - name: IS_OTIF
+    expr: IS_OTIF
+    data_type: BOOLEAN
+    access_modifier: public_access
+  - name: MATERIAL_GROUP
+    expr: MATERIAL_GROUP
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: MATERIAL_NUMBER
+    expr: MATERIAL_NUMBER
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: ORDERED_QTY
+    expr: ORDERED_QTY
+    data_type: NUMBER(4,0)
+    access_modifier: public_access
+  - name: PLANT_CODE
+    expr: PLANT_CODE
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_COUNTRY
+    expr: SUPPLIER_COUNTRY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_ID
+    expr: SUPPLIER_ID
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_NAME
+    expr: SUPPLIER_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_REGION
+    expr: SUPPLIER_REGION
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  facts:
+  - name: DUTY_COST_USD
+    expr: DUTY_COST_USD
+    data_type: NUMBER(10,2)
+    access_modifier: public_access
+  - name: EXTENDED_PRICE_USD
+    expr: EXTENDED_PRICE_USD
+    data_type: NUMBER(25,2)
+    access_modifier: public_access
+  - name: FREIGHT_COST_USD
+    expr: FREIGHT_COST_USD
+    data_type: NUMBER(10,2)
+    access_modifier: public_access
+  - name: HANDLING_COST_USD
+    expr: HANDLING_COST_USD
+    data_type: NUMBER(10,2)
+    access_modifier: public_access
+  - name: LANDED_COST_PER_UNIT_USD
+    expr: LANDED_COST_PER_UNIT_USD
+    data_type: NUMBER(35,2)
+    access_modifier: public_access
+  - name: LANDED_COST_USD
+    expr: LANDED_COST_USD
+    data_type: NUMBER(28,2)
+    access_modifier: public_access
+  - name: UNIT_PRICE_USD
+    expr: UNIT_PRICE_USD
+    data_type: NUMBER(21,4)
+    access_modifier: public_access
+  time_dimensions:
+  - name: PO_DATE
+    expr: PO_DATE
+    data_type: DATE
+    access_modifier: public_access
+  - name: PO_MONTH
+    expr: PO_MONTH
+    data_type: DATE
+    access_modifier: public_access
+- name: VW_METRIC_OTD
+  base_table:
+    database: ZERO_TO_ONE_CHAIN
+    schema: L6_SEMANTIC
+    table: VW_METRIC_OTD
+  dimensions:
+  - name: CHANNEL
+    expr: CHANNEL
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: CUSTOMER_ID
+    expr: CUSTOMER_ID
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: CUSTOMER_NAME
+    expr: CUSTOMER_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: CUSTOMER_REGION
+    expr: CUSTOMER_REGION
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+    synonyms:
+    - region
+    - market
+    description: 'Customer region: AMERICAS, EMEA, APAC.'
+  - name: DELIVERED_QTY
+    expr: DELIVERED_QTY
+    data_type: NUMBER(3,0)
+    access_modifier: public_access
+  - name: DELIVERY_VARIANCE_DAYS
+    expr: DELIVERY_VARIANCE_DAYS
+    data_type: NUMBER(9,0)
+    access_modifier: public_access
+  - name: INDUSTRY
+    expr: INDUSTRY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: IS_IN_FULL
+    expr: IS_IN_FULL
+    data_type: BOOLEAN
+    access_modifier: public_access
+  - name: IS_ON_TIME
+    expr: IS_ON_TIME
+    data_type: BOOLEAN
+    access_modifier: public_access
+    description: TRUE if delivered on or before the committed date. NULL for lines not yet delivered.
+  - name: IS_OTIF
+    expr: IS_OTIF
+    data_type: BOOLEAN
+    access_modifier: public_access
+    description: TRUE if delivered on time AND in full. NULL for lines not yet delivered.
+  - name: MATERIAL_NUMBER
+    expr: MATERIAL_NUMBER
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: ORDERED_QTY
+    expr: ORDERED_QTY
+    data_type: NUMBER(3,0)
+    access_modifier: public_access
+  - name: PLANT_CODE
+    expr: PLANT_CODE
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: PLANT_NAME
+    expr: PLANT_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: PLANT_REGION
+    expr: PLANT_REGION
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: PRIORITY
+    expr: PRIORITY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SEGMENT
+    expr: SEGMENT
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SERVICE_LEVEL
+    expr: SERVICE_LEVEL
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SHIPPING_METHOD
+    expr: SHIPPING_METHOD
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: IS_DELIVERED
+    expr: IS_DELIVERED
+    data_type: BOOLEAN
+    description: TRUE when the order line has an actual delivery date. OTD, OTIF and fill rate are only measured on delivered lines.
+  - name: SERVICE_TIER
+    expr: SERVICE_TIER
+    data_type: VARCHAR
+    description: 'Customer service tier: Platinum, Gold, Silver, Bronze, Standard.'
+    synonyms:
+    - customer tier
+  - name: ORDER_NUMBER
+    expr: ORDER_NUMBER
+    data_type: VARCHAR
+    description: Sales order line identifier.
+  facts:
+  - name: FILL_RATE_PCT
+    expr: FILL_RATE_PCT
+    data_type: NUMBER(12,6)
+    access_modifier: public_access
+  - name: NET_VALUE_USD
+    expr: NET_VALUE_USD
+    data_type: NUMBER(26,2)
+    access_modifier: public_access
+  time_dimensions:
+  - name: ORDER_DATE
+    expr: ORDER_DATE
+    data_type: DATE
+    access_modifier: public_access
+  - name: ORDER_MONTH
+    expr: ORDER_MONTH
+    data_type: DATE
+    access_modifier: public_access
+  - name: ORDER_QUARTER
+    expr: ORDER_QUARTER
+    data_type: DATE
+    access_modifier: public_access
+  - name: ACTUAL_DELIVERY_DATE
+    expr: ACTUAL_DELIVERY_DATE
+    data_type: DATE
+    description: Date the line was delivered. Use this for monthly/quarterly OTD trends.
+    synonyms:
+    - delivery date
+  - name: COMMITTED_DELIVERY_DATE
+    expr: COMMITTED_DELIVERY_DATE
+    data_type: DATE
+    description: Date promised to the customer.
+    synonyms:
+    - promise date
+    - commit date
+  metrics:
+  - name: OTD_PCT
+    expr: AVG(IS_ON_TIME::INT) * 100
+    description: 'CANONICAL On-Time Delivery %: share of DELIVERED order lines delivered on or before the committed date. Target 95%.'
+    synonyms:
+    - on-time delivery
+    - OTD
+    - on time rate
+    - delivery performance
+  - name: OTIF_PCT
+    expr: AVG(IS_OTIF::INT) * 100
+    description: 'CANONICAL OTIF %: share of DELIVERED order lines delivered on time and in full. Target 90%.'
+    synonyms:
+    - on time in full
+    - OTIF
+  - name: FILL_RATE
+    expr: AVG(FILL_RATE_PCT)
+    description: 'CANONICAL Fill Rate %: delivered quantity / ordered quantity, averaged over delivered lines. Target 98%.'
+    synonyms:
+    - fill rate
+    - in full rate
+  - name: DELIVERED_LINES
+    expr: COUNT_IF(IS_DELIVERED)
+    description: Number of delivered order lines.
+  - name: TOTAL_ORDER_VALUE
+    expr: SUM(NET_VALUE_USD)
+    description: Net order value in USD.
+    synonyms:
+    - revenue
+    - sales
+- name: VW_METRIC_SUPPLIER_RISK
+  base_table:
+    database: ZERO_TO_ONE_CHAIN
+    schema: L6_SEMANTIC
+    table: VW_METRIC_SUPPLIER_RISK
+  primary_key:
+    columns:
+    - SUPPLIER_ID
+  dimensions:
+  - name: CONCENTRATION_RISK
+    expr: CONCENTRATION_RISK
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: COUNTRY
+    expr: COUNTRY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: DUAL_SOURCE_AVAILABLE
+    expr: DUAL_SOURCE_AVAILABLE
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: ESG_COMPLIANCE_STATUS
+    expr: ESG_COMPLIANCE_STATUS
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: LAST_AUDIT_RESULT
+    expr: LAST_AUDIT_RESULT
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: LEAD_TIME_DAYS
+    expr: LEAD_TIME_DAYS
+    data_type: NUMBER(2,0)
+    access_modifier: public_access
+  - name: PRIMARY_CATEGORY
+    expr: PRIMARY_CATEGORY
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: REGION
+    expr: REGION
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_ID
+    expr: SUPPLIER_ID
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: SUPPLIER_NAME
+    expr: SUPPLIER_NAME
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  - name: TIER
+    expr: TIER
+    data_type: VARCHAR(16777216)
+    access_modifier: public_access
+  facts:
+  - name: ANNUAL_SPEND_USD_MM
+    expr: ANNUAL_SPEND_USD_MM
+    data_type: NUMBER(10,2)
+    access_modifier: public_access
+  - name: BLENDED_RISK_SCORE
+    expr: BLENDED_RISK_SCORE
+    data_type: NUMBER(18,2)
+    access_modifier: public_access
+  - name: DEFECT_PPM
+    expr: DEFECT_PPM
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  - name: DELIVERY_RELIABILITY_PCT
+    expr: DELIVERY_RELIABILITY_PCT
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  - name: FINANCIAL_RISK_SCORE
+    expr: FINANCIAL_RISK_SCORE
+    data_type: NUMBER(3,1)
+    access_modifier: public_access
+  - name: GEOPOLITICAL_RISK_SCORE
+    expr: GEOPOLITICAL_RISK_SCORE
+    data_type: NUMBER(3,1)
+    access_modifier: public_access
+  - name: OTD_PCT
+    expr: OTD_PCT
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  - name: QUALITY_SCORE
+    expr: QUALITY_SCORE
+    data_type: NUMBER(5,2)
+    access_modifier: public_access
+  - name: SUPPLIER_RISK_SCORE
+    expr: SUPPLIER_RISK_SCORE
+    data_type: NUMBER(22,2)
+    access_modifier: public_access
+  - name: SUSTAINABILITY_SCORE
+    expr: SUSTAINABILITY_SCORE
+    data_type: NUMBER(3,1)
+    access_modifier: public_access
+verified_queries:
+- name: '"0;1"'
+  sql: SELECT SUPPLIER_NAME, SUPPLIER_RISK_SCORE, OTD_PCT, DEFECT_PPM, CONCENTRATION_RISK FROM vw_metric_supplier_risk ORDER BY SUPPLIER_RISK_SCORE DESC LIMIT 10
+  question: Which are the top 10 riskiest suppliers?
+  use_as_onboarding_question: false
+- name: '"1;1"'
+  sql: SELECT MATERIAL_GROUP, ROUND(AVG(LANDED_COST_PER_UNIT_USD), 2) AS avg_landed_cost FROM vw_metric_landed_cost GROUP BY MATERIAL_GROUP ORDER BY avg_landed_cost DESC
+  question: What is the average landed cost per unit by material group?
+  use_as_onboarding_question: false
+- name: '"2;1"'
+  sql: SELECT REGION, ROUND(AVG(DAYS_OF_INVENTORY), 1) AS avg_doi FROM vw_metric_inventory GROUP BY REGION ORDER BY avg_doi DESC
+  question: What is the average days of inventory by region?
+  use_as_onboarding_question: false
+- name: '"3;1"'
+  sql: SELECT PLANT_NAME, STOCK_STATUS, COUNT(*) AS item_count FROM vw_metric_inventory GROUP BY PLANT_NAME, STOCK_STATUS ORDER BY PLANT_NAME, STOCK_STATUS
+  question: What is the stock status breakdown by plant?
+  use_as_onboarding_question: false
+- name: OTD_BY_INDUSTRY
+  sql: SELECT INDUSTRY, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, COUNT(*) AS delivered_lines FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED GROUP BY 1 ORDER BY otd_pct DESC
+  question: What is the on-time delivery rate by customer industry?
+  use_as_onboarding_question: false
+- name: OTIF_BY_CHANNEL
+  sql: SELECT CHANNEL, ROUND(AVG(IS_OTIF::INT)*100, 1) AS otif_pct FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED GROUP BY 1 ORDER BY otif_pct DESC
+  question: What is OTIF by sales channel?
+  use_as_onboarding_question: false
+- name: TOP_CUSTOMERS_BY_REVENUE
+  sql: SELECT CUSTOMER_NAME, CUSTOMER_REGION, ROUND(SUM(NET_VALUE_USD), 2) AS TOTAL_ORDER_VALUE FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD GROUP BY CUSTOMER_NAME, CUSTOMER_REGION ORDER BY TOTAL_ORDER_VALUE DESC LIMIT 10
+  question: Who are the top 10 customers by order value?
+  use_as_onboarding_question: false
+- name: SUPPLIER_RISK_BY_CATEGORY
+  sql: SELECT PRIMARY_CATEGORY, ROUND(AVG(SUPPLIER_RISK_SCORE), 2) AS AVG_RISK, COUNT(*) AS SUPPLIER_COUNT FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_SUPPLIER_RISK GROUP BY PRIMARY_CATEGORY ORDER BY AVG_RISK DESC
+  question: What is the average supplier risk score by product category?
+  use_as_onboarding_question: false
+- name: CRITICAL_RISK_SUPPLIERS
+  sql: SELECT SUPPLIER_NAME, REGION, SUPPLIER_RISK_SCORE, OTD_PCT, DUAL_SOURCE_AVAILABLE FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_SUPPLIER_RISK WHERE CONCENTRATION_RISK = 'Critical' ORDER BY SUPPLIER_RISK_SCORE DESC
+  question: Which suppliers have critical concentration risk?
+  use_as_onboarding_question: false
+- name: LANDED_COST_TREND
+  sql: SELECT PO_MONTH, ROUND(AVG(LANDED_COST_PER_UNIT_USD), 2) AS AVG_LANDED_COST FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_LANDED_COST WHERE LANDED_COST_PER_UNIT_USD IS NOT NULL GROUP BY PO_MONTH ORDER BY PO_MONTH
+  question: What is the landed cost per unit trend by month?
+  use_as_onboarding_question: false
+- name: LANDED_COST_BY_SUPPLIER_REGION
+  sql: SELECT SUPPLIER_REGION, ROUND(AVG(LANDED_COST_PER_UNIT_USD), 2) AS AVG_COST, ROUND(SUM(LANDED_COST_USD), 0) AS TOTAL_COST FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_LANDED_COST WHERE LANDED_COST_PER_UNIT_USD IS NOT NULL GROUP BY SUPPLIER_REGION ORDER BY AVG_COST DESC
+  question: What is the average landed cost by supplier region?
+  use_as_onboarding_question: false
+- name: STOCKOUT_ITEMS
+  sql: SELECT PLANT_NAME, MATERIAL_NUMBER, PART_NAME, CATEGORY, REGION FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_INVENTORY WHERE STOCK_STATUS = 'STOCKOUT' ORDER BY PLANT_NAME, MATERIAL_NUMBER
+  question: Which items are currently stocked out?
+  use_as_onboarding_question: false
+- name: INVENTORY_VALUE_BY_ABC
+  sql: SELECT ABC_CLASS, ROUND(SUM(INVENTORY_VALUE_USD) / 1e6, 2) AS VALUE_MM, COUNT(*) AS ITEM_COUNT, ROUND(AVG(DAYS_OF_INVENTORY), 1) AS AVG_DOI FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_INVENTORY GROUP BY ABC_CLASS ORDER BY ABC_CLASS
+  question: What is the inventory value breakdown by ABC classification?
+  use_as_onboarding_question: false
+- name: OBSOLESCENCE_RISK
+  sql: SELECT MATERIAL_NUMBER, PART_NAME, PLANT_NAME, REGION, OBSOLESCENCE_RISK_PCT, INVENTORY_VALUE_USD, DAYS_ON_HAND FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_INVENTORY WHERE OBSOLESCENCE_RISK_PCT > 30 ORDER BY OBSOLESCENCE_RISK_PCT DESC LIMIT 20
+  question: Which items have the highest obsolescence risk?
+  use_as_onboarding_question: false
+- name: OTD_BY_PLANT
+  sql: SELECT PLANT_NAME, PLANT_REGION, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, COUNT(*) AS delivered_lines FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED GROUP BY 1,2 ORDER BY otd_pct
+  question: What is the on-time delivery rate by plant?
+  use_as_onboarding_question: false
+- name: OTD_BY_PRIORITY
+  sql: SELECT PRIORITY, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, ROUND(AVG(IS_OTIF::INT)*100, 1) AS otif_pct FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED GROUP BY 1 ORDER BY 1
+  question: Does order priority affect on-time delivery?
+  use_as_onboarding_question: false
+- name: OTD_BY_SEGMENT
+  sql: SELECT SEGMENT, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, ROUND(AVG(FILL_RATE_PCT), 1) AS fill_rate FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED GROUP BY 1 ORDER BY otd_pct
+  question: Which customer segment has the worst delivery performance?
+  use_as_onboarding_question: false
+- name: NO_DUAL_SOURCE_HIGH_SPEND
+  sql: SELECT SUPPLIER_NAME, REGION, ANNUAL_SPEND_USD_MM, SUPPLIER_RISK_SCORE, CONCENTRATION_RISK FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_SUPPLIER_RISK WHERE DUAL_SOURCE_AVAILABLE = 'No' AND ANNUAL_SPEND_USD_MM > 20 ORDER BY ANNUAL_SPEND_USD_MM DESC
+  question: Which high-spend suppliers have no backup?
+  use_as_onboarding_question: false
+- name: FREIGHT_COST_BY_MATERIAL_GROUP
+  sql: SELECT MATERIAL_GROUP, ROUND(SUM(FREIGHT_COST_USD), 0) AS TOTAL_FREIGHT, ROUND(AVG(FREIGHT_COST_USD), 2) AS AVG_FREIGHT, COUNT(*) AS PO_COUNT FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_LANDED_COST GROUP BY MATERIAL_GROUP ORDER BY TOTAL_FREIGHT DESC
+  question: What are the total freight costs by material group?
+  use_as_onboarding_question: false
+- name: DOI_BY_PLANT
+  sql: SELECT PLANT_NAME, REGION, ROUND(AVG(DAYS_OF_INVENTORY), 1) AS AVG_DOI, ROUND(SUM(INVENTORY_VALUE_USD) / 1e6, 2) AS VALUE_MM FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_INVENTORY WHERE DAYS_OF_INVENTORY IS NOT NULL GROUP BY PLANT_NAME, REGION ORDER BY AVG_DOI DESC
+  question: What are the days of inventory by plant?
+  use_as_onboarding_question: false
+- name: ESG_NON_COMPLIANT_SUPPLIERS
+  sql: SELECT SUPPLIER_NAME, REGION, ESG_COMPLIANCE_STATUS, SUSTAINABILITY_SCORE, SUPPLIER_RISK_SCORE, ANNUAL_SPEND_USD_MM FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_SUPPLIER_RISK WHERE ESG_COMPLIANCE_STATUS = 'Non-compliant' ORDER BY ANNUAL_SPEND_USD_MM DESC
+  question: Which suppliers are ESG non-compliant?
+  use_as_onboarding_question: false
+- name: apac_otd_by_method
+  question: Why did APAC on-time delivery drop?
+  sql: SELECT SHIPPING_METHOD, IFF(ORDER_DATE >= '2026-07-01', 'Q3 2026', 'Before Q3') AS period, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, COUNT(*) AS delivered_lines FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED AND CUSTOMER_REGION = 'APAC' AND ORDER_DATE >= '2026-01-01' GROUP BY 1,2 ORDER BY 1,2
+- name: otd_region_qoq
+  question: What is OTD by region last quarter versus the prior quarter?
+  sql: SELECT CUSTOMER_REGION, ROUND(AVG(IFF(ACTUAL_DELIVERY_DATE >= '2026-07-01', IS_ON_TIME::INT, NULL))*100, 1) AS q3_otd, ROUND(AVG(IFF(ACTUAL_DELIVERY_DATE < '2026-07-01', IS_ON_TIME::INT, NULL))*100, 1) AS q2_otd FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED AND ACTUAL_DELIVERY_DATE >= '2026-04-01' AND ACTUAL_DELIVERY_DATE < '2026-10-01' GROUP BY 1 ORDER BY q3_otd
+- name: sla_breach_customers
+  question: Which Platinum and Gold customers are below 85% OTD this quarter?
+  sql: SELECT CUSTOMER_NAME, CUSTOMER_REGION, SERVICE_TIER, ROUND(AVG(IS_ON_TIME::INT)*100, 1) AS otd_pct, COUNT(*) AS delivered_lines FROM ZERO_TO_ONE_CHAIN.L6_SEMANTIC.VW_METRIC_OTD WHERE IS_DELIVERED AND ORDER_DATE >= '2026-07-01' AND SERVICE_TIER IN ('Platinum','Gold') GROUP BY 1,2,3 HAVING COUNT(*) >= 5 AND AVG(IS_ON_TIME::INT) < 0.85 ORDER BY otd_pct

@@ -1,0 +1,86 @@
+version: 2
+
+models:
+  - name: dim_supplier
+    description: "Golden supplier record: entity resolution from ERP + SRM with survivorship rules, blended risk score, and health tier"
+    columns:
+      - name: supplier_id
+        description: "Canonical supplier ID (ERP vendor_code)"
+        tests:
+          - not_null
+          - unique
+      - name: blended_risk_score
+        description: "Weighted risk across financial, geopolitical, quality, delivery, concentration (0-100)"
+        tests:
+          - not_null
+      - name: health_tier
+        description: "RED / AMBER / GREEN based on audit, status, quality, OTD"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['RED', 'AMBER', 'GREEN']
+
+  - name: fact_orders
+    description: "Sales orders enriched with customer/plant context, SLA breach detection, order health, value ranking"
+    columns:
+      - name: order_number
+        tests:
+          - not_null
+      - name: is_on_time
+        tests:
+          - not_null
+      - name: is_otif
+        tests:
+          - not_null
+      - name: order_health
+        description: "COMPLETE / CANCELLED / OVERDUE_CRITICAL / OVERDUE / ON_TRACK"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['COMPLETE', 'CANCELLED', 'OVERDUE_CRITICAL', 'OVERDUE', 'ON_TRACK']
+
+  - name: fact_purchase_orders
+    description: "PO lines enriched with supplier risk, material context, cost variance, lead time, risk flags"
+    columns:
+      - name: po_number
+        tests:
+          - not_null
+      - name: landed_cost_usd
+        tests:
+          - not_null
+      - name: risk_flag
+        description: "HIGH_RISK_SUPPLIER / QUALITY_ISSUE / LATE_DELIVERY / SINGLE_SOURCE_CRITICAL / NORMAL"
+        tests:
+          - not_null
+
+  - name: mart_supplier_scorecard
+    description: "Monthly supplier scorecard: OTD, OTIF, reject rate, spend, MoM trend, 3-month rolling avg, grade"
+    columns:
+      - name: supplier_id
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: monthly_grade
+        tests:
+          - accepted_values:
+              values: ['A', 'B', 'C', 'D']
+      - name: trend_direction
+        tests:
+          - accepted_values:
+              values: ['DECLINING_FAST', 'DECLINING', 'STABLE', 'IMPROVING']
+
+  - name: mart_customer_delivery
+    description: "Customer delivery SLA tracking: monthly OTD, breach count, revenue at risk, escalation status"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+      - name: delivery_health
+        tests:
+          - accepted_values:
+              values: ['EXCELLENT', 'GOOD', 'AT_RISK', 'CRITICAL']
+      - name: action_status
+        tests:
+          - accepted_values:
+              values: ['ESCALATION_REQUIRED', 'REVIEW_REQUIRED', 'ATTENTION', 'OK']
