@@ -11,3 +11,5 @@ __pycache__/
 *.pyc
 node_modules/
 .vercel/
+.folder
+**/.folder
