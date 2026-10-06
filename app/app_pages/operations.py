@@ -133,7 +133,9 @@ def render():
                 st.caption(f"Last release {rel.STATUS.lower()} · {rel.PROMOTED_AT:%d %b %H:%M}")
             else:
                 st.caption("Source of every release")
-        if i == 0:
+        if ui.READ_ONLY:
+            pass
+        elif i == 0:
             with cols[1]:
                 if st.button("", icon=":material/arrow_forward:", key="rel_UAT", type="primary", width="stretch",
                              help="Run the release train now: DEV → UAT with verification"):

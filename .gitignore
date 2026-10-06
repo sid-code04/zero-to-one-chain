@@ -1,0 +1,13 @@
+# Secrets: never commit
+embed/secrets/
+*.p8
+*.pem
+.env
+.env.*
+.streamlit/secrets.toml
+
+# Local / build artifacts
+__pycache__/
+*.pyc
+node_modules/
+.vercel/

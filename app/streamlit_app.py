@@ -43,6 +43,6 @@ with st.sidebar:
             st.page_link(p, label=p.title, icon=p.icon, width="stretch")
 
     st.button("Refresh data", icon=":material/refresh:", on_click=ui.clear_cache, width="stretch")
-    st.caption(f"Business date {ui.AS_OF} · Environment DEV")
+    st.caption(f"Business date {ui.AS_OF} · " + ("Viewer edition (read-only)" if ui.READ_ONLY else "Environment DEV"))
 
 page.run()

@@ -64,7 +64,9 @@ def render():
                     st.markdown(":material/verified: **UAT verified**")
                 else:
                     ui.kpi("Estimated impact", ui.money(r.ESTIMATED_IMPACT_USD))
-                if r.STATUS == "PENDING" and is_release:
+                if r.STATUS == "PENDING" and ui.READ_ONLY:
+                    st.caption("Approvals are disabled in the viewer edition")
+                elif r.STATUS == "PENDING" and is_release:
                     if st.button("Review release", key=f"rv{r.RECOMMENDATION_ID}", type="primary",
                                  icon=":material/rocket_launch:"):
                         ui.release_decision(r.RECOMMENDATION_ID, r.TITLE, r.DESCRIPTION)

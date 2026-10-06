@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zero to One Chain · Supply Chain Decision Twin</title>
+  <style>
+    html, body { height: 100%; margin: 0; font-family: Inter, system-ui, sans-serif; background: #f4f9fc; color: #11567F; }
+    header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: #11567F; color: #fff; }
+    header b { font-size: 16px; } header span { font-size: 12px; opacity: .8; }
+    #wrap { height: calc(100% - 46px); }
+    iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+    #msg { padding: 48px; text-align: center; }
+    #msg button { margin-top: 12px; padding: 8px 16px; border: 0; border-radius: 8px; background: #29B5E8; color: #fff; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header><b>Zero to One Chain</b><span>Supply Chain Decision Twin · read-only live demo · Snowflake CoCo CLI Hackathon, GCC Edition</span></header>
+  <div id="wrap"><div id="msg">Loading the live app from Snowflake…<br /><small>The first load can take up to a minute while the container starts.</small></div></div>
+  <script>
+    async function load() {
+      const wrap = document.getElementById("wrap");
+      try {
+        const r = await fetch("/api/embed-url", { cache: "no-store" });
+        const j = await r.json();
+        if (!r.ok || !j.embedUrl) throw new Error(j.error || "Could not get an embed URL");
+        const f = document.createElement("iframe");
+        f.src = j.embedUrl; f.title = "Zero to One Chain app";
+        wrap.replaceChildren(f);
+      } catch (e) {
+        wrap.innerHTML = '<div id="msg">The live app could not be loaded.<br /><small>' + String(e.message).replace(/</g, "&lt;") +
+          '</small><br /><button onclick="location.reload()">Try again</button></div>';
+      }
+    }
+    load();
+  </script>
+</body>
+</html>

@@ -62,7 +62,7 @@ def render():
                          "RECORDS": st.column_config.NumberColumn("Caught", format="%d"),
                          "OPEN_RECORDS": st.column_config.NumberColumn("Still open", format="%d"),
                      })
-        if open_n and st.button("Remediate quarantined records", icon=":material/build:", type="primary"):
+        if open_n and not ui.READ_ONLY and st.button("Remediate quarantined records", icon=":material/build:", type="primary"):
             with st.spinner("Applying remediation rules"):
                 msg = ui.run(f"CALL {DB}.L3_VALIDATE.SP_RESOLVE_QUARANTINE()")[0][0]
             ui.clear_cache()

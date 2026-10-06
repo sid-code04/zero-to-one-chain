@@ -10,6 +10,9 @@ import pandas as pd
 import streamlit as st
 
 DB = "ZERO_TO_ONE_CHAIN"
+# The shared deployment ships a `viewer.flag` file: every write action is hidden and refused. The admin
+# copy in the workspace has no flag, so it keeps the Start/Stop, Release and Approve controls.
+READ_ONLY = os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "viewer.flag"))
 AS_OF = "2026-10-05"
 TARGETS = {"OTD": 95.0, "OTIF": 90.0, "FILL": 98.0}
 
@@ -58,7 +61,9 @@ def qp(sql: str, params: tuple) -> pd.DataFrame:
 
 
 def run(sql: str, params=None):
-    """Uncached execution for actions (CALL / UPDATE)."""
+    """Uncached execution for actions (CALL / UPDATE). Refused in the read-only viewer edition."""
+    if READ_ONLY:
+        raise PermissionError("This is the read-only viewer edition: actions are disabled.")
     return conn().session().sql(sql, params=params).collect()
 
 
@@ -147,6 +152,8 @@ def project_control(key: str, compact: bool = False):
         else:
             st.markdown(f"**Project pipeline** &nbsp; {badge}")
         st.caption(f"Tasks running: {detail}")
+        if READ_ONLY:
+            return
         if st.button("Stop project" if action == "STOP" else "Start project", key=f"{key}_{action}",
                      icon=":material/stop:" if action == "STOP" else ":material/play_arrow:",
                      type="secondary" if action == "STOP" else "primary", width="stretch"):
