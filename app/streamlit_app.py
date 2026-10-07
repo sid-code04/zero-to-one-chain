@@ -8,6 +8,9 @@ st.set_page_config(page_title="Zero to One Chain · Supply Chain Decision Twin",
 ui.conn()
 
 SECTIONS = {
+    "Ask": [
+        st.Page("app_pages/assistant.py", title="Ask the Twin", icon=":material/smart_toy:"),
+    ],
     "Performance": [
         st.Page("app_pages/command_center.py", title="Command center", icon=":material/space_dashboard:", default=True),
         st.Page("app_pages/delivery.py", title="Delivery", icon=":material/local_shipping:"),
