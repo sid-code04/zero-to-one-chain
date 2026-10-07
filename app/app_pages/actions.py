@@ -62,8 +62,10 @@ def render():
                 is_release = r.CATEGORY == "RELEASE"
                 if is_release:
                     st.markdown(":material/verified: **UAT verified**")
-                else:
+                elif pd.notna(r.ESTIMATED_IMPACT_USD):
                     ui.kpi("Estimated impact", ui.money(r.ESTIMATED_IMPACT_USD))
+                else:
+                    st.caption("Impact not yet estimated")
                 if r.STATUS == "PENDING" and ui.READ_ONLY:
                     st.caption("Approvals are disabled in the viewer edition")
                 elif r.STATUS == "PENDING" and is_release:

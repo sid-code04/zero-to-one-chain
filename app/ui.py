@@ -265,7 +265,9 @@ def target_note(value: float, target: float, unit: str = "%") -> str:
 
 
 def money(v: float) -> str:
-    v = float(v or 0)
+    if v is None or pd.isna(v):
+        return "n/a"
+    v = float(v)
     if abs(v) >= 1e9:
         return f"${v / 1e9:,.2f}B"
     if abs(v) >= 1e6:
